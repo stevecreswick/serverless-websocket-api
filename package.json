@@ -1,0 +1,53 @@
+{
+  "name": "stream-orchestrator-update-websockets",
+  "version": "1.0.0",
+  "description": "Broadcasts livestream updates to open websockets",
+  "main": "index.js",
+  "scripts": {
+    "test": "NODE_PATH=./src/ jest",
+    "test:unit": "npm run test -- --testRegex=tests/unit/.+\\.test\\.js",
+    "test:coverage": "npm run test:unit -- --coverage --coverageDirectory=tests/unitcoverage/",
+    "lint": "eslint . && prettier --list-different \"**/*.{md,yml}\"",
+    "lint:fix": "eslint . --fix && prettier --write \"**/*.{md,yml}\"",
+    "pr:check": "npm run lint:fix && npm run test:coverage"
+  },
+  "author": "",
+  "license": "ISC",
+  "jest": {
+    "testEnvironment": "node",
+    "coverageThreshold": {
+      "global": {
+        "branches": 100,
+        "functions": 100,
+        "lines": 100,
+        "statements": 100
+      }
+    },
+    "collectCoverageFrom": [
+      "src/**/*.js"
+    ],
+    "setupFilesAfterEnv": [
+      "./tests/unit/setup.js"
+    ]
+  },
+  "devDependencies": {
+    "@babel/core": "^7.8.6",
+    "babel-loader": "^8.0.6",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^6.8.0",
+    "eslint-plugin-jasmine": "^4.1.0",
+    "eslint-plugin-prettier": "^3.1.2",
+    "eslint-plugin-promise": "^4.2.1",
+    "jest": "^25.1.0",
+    "prettier": "^1.19.1",
+    "serverless": "^1.66.0",
+    "serverless-dynamodb-local": "^0.2.39",
+    "serverless-offline": "^5.12.1",
+    "serverless-webpack": "^5.3.1",
+    "webpack": "^4.42.0",
+    "webpack-node-externals": "^1.7.2"
+  },
+  "dependencies": {
+    "lodash": "^4.17.15"
+  }
+}

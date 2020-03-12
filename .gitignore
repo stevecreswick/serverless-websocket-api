@@ -1,0 +1,17 @@
+# Serverless
+.serverless
+.dynamodb
+
+# OSX os files
+.DS_Store
+.DS_Store?
+
+# NODE
+node_modules
+
+# Test Coverage
+tests/unitcoverage
+
+dist
+
+.vscode
