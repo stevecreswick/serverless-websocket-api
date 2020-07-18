@@ -7,16 +7,14 @@ import Connection from 'models/connection';
  * @returns {object}
  */
 const handler = async event => {
-  const streamId = _.get(event, 'queryStringParameters.stream_id');
+  const roomId = _.get(event, 'queryStringParameters.room_id');
   const connectionId = _.get(event, 'requestContext.connectionId');
 
-  if (!streamId) {
+  if (!roomId) {
     return { statusCode: 400 };
   }
 
-  // @todo: connect to redis to check if stream is in an active state
-
-  await Connection.create(streamId, connectionId);
+  await Connection.create(roomId, connectionId);
 
   return { statusCode: 200 };
 };

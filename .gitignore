@@ -1,6 +1,7 @@
 # Serverless
 .serverless
 .dynamodb
+.webpack
 
 # OSX os files
 .DS_Store

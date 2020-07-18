@@ -23,13 +23,13 @@ const deleteItem = util.promisify(dynamodb.deleteItem).bind(dynamodb);
 
 /**
  * Removes attribute type map from objects returned by DynamoDB
- * e.g. { stream_id: { S: "helloworld" } } -> { stream_id: "helloworld" }
+ * e.g. { room_id: { S: "helloworld" } } -> { room_id: "helloworld" }
  */
 const unmarshall = aws.DynamoDB.Converter.unmarshall;
 
 /**
  * Converts objects to DynamoDB attribute type map format
- * e.g. { stream_id: "helloworld" } -> { stream_id: { S: "helloworld" } }
+ * e.g. { room_id: "helloworld" } -> { room_id: { S: "helloworld" } }
  */
 const marshall = aws.DynamoDB.Converter.marshall;
 

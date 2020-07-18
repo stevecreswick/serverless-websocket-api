@@ -1,7 +1,7 @@
 {
-  "name": "stream-orchestrator-update-websockets",
+  "name": "serverless-websocket-api",
   "version": "1.0.0",
-  "description": "Broadcasts livestream updates to open websockets",
+  "description": "A ready-to-use Websocket API built with Serverless, AWS API Gateway, DynamoDB, and Lambda",
   "main": "index.js",
   "scripts": {
     "test": "NODE_PATH=./src/ jest",
@@ -11,7 +11,7 @@
     "lint:fix": "eslint . --fix && prettier --write \"**/*.{md,yml}\"",
     "pr:check": "npm run lint:fix && npm run test:coverage"
   },
-  "author": "",
+  "author": "@stevecreswick",
   "license": "ISC",
   "jest": {
     "testEnvironment": "node",

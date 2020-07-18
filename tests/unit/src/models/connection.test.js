@@ -2,17 +2,20 @@ jest.mock('vendor_api/aws/dynamodb');
 
 import { putItem, query, deleteItem, marshall, unmarshall } from 'vendor_api/aws/dynamodb';
 import Connection from 'models/connection';
-import { TEST_STREAM_ID, TEST_CONNECTION_ID } from '../../helpers/api-gateway';
+import { TEST_ROOM_ID, TEST_CONNECTION_ID } from '../../helpers/api-gateway';
+import { TEST_SERVICE_NAME, TEST_STAGE } from './../../setup';
 
 describe('Connection', () => {
+  const tableName = `${TEST_SERVICE_NAME}-connections-${TEST_STAGE}`;
+
   let marshalled, unmarshalled;
   beforeEach(() => {
     marshalled = {
-      stream_id: { S: TEST_STREAM_ID },
+      room_id: { S: TEST_ROOM_ID },
       connection_id: { S: TEST_CONNECTION_ID }
     };
 
-    unmarshalled = { stream_id: TEST_STREAM_ID, connection_id: TEST_CONNECTION_ID };
+    unmarshalled = { room_id: TEST_ROOM_ID, connection_id: TEST_CONNECTION_ID };
 
     marshall.mockReturnValue(marshalled);
     unmarshall.mockReturnValue(unmarshalled);
@@ -20,11 +23,11 @@ describe('Connection', () => {
 
   describe('#create', () => {
     it('calls putItem with the correct params', async () => {
-      await Connection.create(TEST_STREAM_ID, TEST_CONNECTION_ID);
+      await Connection.create(TEST_ROOM_ID, TEST_CONNECTION_ID);
 
       expect(putItem).toBeCalledWith({
         Item: marshalled,
-        TableName: 'stream-orchestrator-update-websockets-connections-test'
+        TableName: `${TEST_SERVICE_NAME}-connections-test`
       });
     });
   });
@@ -39,12 +42,12 @@ describe('Connection', () => {
         ExpressionAttributeValues: { ':connection_id': { S: TEST_CONNECTION_ID } },
         IndexName: 'connection_id',
         KeyConditionExpression: 'connection_id = :connection_id',
-        TableName: 'stream-orchestrator-update-websockets-connections-test'
+        TableName: tableName
       };
 
       const deleteParams = {
         Key: marshalled,
-        TableName: 'stream-orchestrator-update-websockets-connections-test'
+        TableName: tableName
       };
 
       expect(query).toBeCalledWith(params);
@@ -58,7 +61,7 @@ describe('Connection', () => {
         ExpressionAttributeValues: { ':connection_id': { S: TEST_CONNECTION_ID } },
         IndexName: 'connection_id',
         KeyConditionExpression: 'connection_id = :connection_id',
-        TableName: 'stream-orchestrator-update-websockets-connections-test'
+        TableName: tableName
       };
 
       await Connection.deleteByConnectionId(TEST_CONNECTION_ID);

@@ -1,7 +1,7 @@
 jest.mock('models/connection');
 
 import { handler } from 'lambdas/on-connect';
-import { TEST_STREAM_ID, TEST_CONNECTION_ID, getConnectionEvent } from '../../helpers/api-gateway';
+import { TEST_ROOM_ID, TEST_CONNECTION_ID, getConnectionEvent } from '../../helpers/api-gateway';
 import Connection from 'models/connection';
 
 describe('onConnect Lambda', () => {
@@ -11,8 +11,8 @@ describe('onConnect Lambda', () => {
   });
 
   describe('#handler', () => {
-    it('returns a 400 if the stream id is missing', async () => {
-      delete event.queryStringParameters.stream_id;
+    it('returns a 400 if the room id is missing', async () => {
+      delete event.queryStringParameters.room_id;
 
       const res = await handler(event);
 
@@ -22,7 +22,7 @@ describe('onConnect Lambda', () => {
     it('creates a connection in dynamodb', async () => {
       const res = await handler(event);
 
-      expect(Connection.create).toBeCalledWith(TEST_STREAM_ID, TEST_CONNECTION_ID);
+      expect(Connection.create).toBeCalledWith(TEST_ROOM_ID, TEST_CONNECTION_ID);
       expect(res).toEqual({ statusCode: 200 });
     });
   });

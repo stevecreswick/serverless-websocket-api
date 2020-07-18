@@ -1,17 +1,17 @@
-import _ from 'lodash';
+import get from 'lodash/get';
 import { query, putItem, deleteItem, marshall, unmarshall } from 'vendor_api/aws/dynamodb';
 import config from 'utils/config';
 
 export default class Connection {
   /**
    * Creates a connection record
-   * @param {string} streamId
+   * @param {string} roomId
    * @param {string} connectionId
    * @returns {undefined}
    */
-  static async create(streamId, connectionId) {
+  static async create(roomId, connectionId) {
     const connection = {
-      stream_id: streamId,
+      room_id: roomId,
       connection_id: connectionId
     };
 
@@ -49,12 +49,12 @@ export default class Connection {
 
     const data = await query(params);
 
-    const Item = _.get(data, 'Items[0]');
+    const Item = get(data, 'Items[0]');
 
     if (Item) {
       const connection = unmarshall(Item);
-      const { stream_id: streamId, connection_id: connectionId } = connection;
-      const Key = { stream_id: { S: streamId }, connection_id: { S: connectionId } };
+      const { room_id: roomId, connection_id: connectionId } = connection;
+      const Key = { room_id: { S: roomId }, connection_id: { S: connectionId } };
 
       const deleteParams = {
         Key,

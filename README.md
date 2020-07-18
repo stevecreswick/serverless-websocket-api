@@ -1,12 +1,8 @@
-# Stream Orchestrator State Update Websockets
-
-The Stream Update Websockets API publishes updated stream data to all open websocket connections.
+# Websocket Demo API
 
 ```sh
-$product=so-update-websockets
+EXPORT service=YOUR_SERVICE_NAME
 ```
-
-Note: The stack is deployed as so-update-websockets. IAM Roles can only be 64 characters, so the stack name cannot be as long as the name of the repo, or it throws errors when generating lambda roles.
 
 ## Setup
 
@@ -24,7 +20,7 @@ You will need to install DynamoDB local if you want to use Serverless Offline fo
 This requires that you have serverless on your machine and Java Runtime Engine.
 
 ```sh
-sls dynamodb install --product=$product
+sls dynamodb install --service=$service
 ```
 
 For more help with installation see: [Serverless DynamoDB Local](https://github.com/99xt/serverless-dynamodb-local)
@@ -42,7 +38,7 @@ Websocket support is still fairly new to Serverless Offline, so there might be b
 In order to start local development run the following.
 
 ```sh
-serverless offline start --product=$product`.
+serverless offline start --service=$service`.
 ```
 
 - Serverless offline allows you to omit the word start on the command line, but if you omit the word start, the local DynamoDB server will not spin up.
@@ -53,7 +49,7 @@ Serverless offline does not support the `wss://` protocol currently.
 During local development all connections must be made over `ws://`
 
 ```sh
-wscat -c "ws://localhost:3001?stream_id={stream_id}"
+wscat -c "ws://localhost:3001?room_id=abc
 ```
 
 For More information visit: [Serverless API Gateway Offline](https://github.com/dherault/serverless-offline#websocket)
@@ -77,14 +73,14 @@ dynamodb.listTables({}, (err, data) => {
   else console.log(data);
 });
 
-// Find Connections for a Stream
+// Find Connections for a Chat
 const params = {
   ExpressionAttributeValues: {
-    ':stream_id': {
-      S: streamId
+    ':room_id': {
+      S: chatId
     }
   },
-  KeyConditionExpression: 'stream_id = :stream_id',
+  KeyConditionExpression: 'room_id = :room_id',
   TableName: 'connections-local'
 };
 
